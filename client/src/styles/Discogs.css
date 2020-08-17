@@ -1,0 +1,83 @@
+
+
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url("./music.jpg");
+    /* background: linear-gradient(to left, #8942a8, #bd382d); */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    height: 100%;
+}
+
+form {
+    position: absolute;
+    width: 400px;
+    height: 60px;
+    left: 50%;
+    top: 30%;
+    padding: 5px;
+    transform: translate(-50%, -50%);
+    border-radius: 50px;
+    border: 4px solid #fff;
+    box-sizing: border-box;
+    background: #fff;
+    transition: 1.5s;
+    cursor: pointer;
+}
+
+input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 0;
+    width: 100%;
+    height: 52px;
+    line-height: 75px;
+    outline: 0;
+    display: none;
+    font-size: 16px;
+    border-radius: 25px;
+    padding: 0 20px;
+    font-family: Shrikhand
+}
+
+i.fa {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 52px;
+    height: 52px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 25px;
+    transition: 1.5s;
+    color: tomato;
+    background: #262626;
+    padding: 15px;
+}
+
+ input {
+    display: block;
+}
+
+ul > i:hover
+{
+    visibility: visible;
+}
+
+ul{
+    margin-top: 50px !important;
+    list-style-type: none;
+}
+
+li
+{
+    background-color: white;
+    width: 290px;
+    margin-top: 10px;
+    border-bottom: 0.5px black solid;
+}
