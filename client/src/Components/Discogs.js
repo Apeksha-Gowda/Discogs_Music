@@ -1,7 +1,6 @@
 import React from 'react'
 import '../styles/Discogs.css'
-import 'bootstrap/dist/css/bootstrap.css';
-
+import 'bootstrap/dist/css/bootstrap.css'
 
 export default class Discogs extends React.Component{
 
@@ -45,15 +44,30 @@ export default class Discogs extends React.Component{
                 return track.title.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1
             }
         );
-        let tracks = filteredTracks.map( track => <li><img src={track.cover_image} alt="prop" width="30" height="30"/>{track.title}<button type="submit" onClick={this.addFav.bind(this,track)}>+</button></li>)
+        let tracks = filteredTracks.map(
+            track =>
+            <li>
+                   <img src={track.cover_image} alt="prop" width="30" height="30"/>
+               {track.title} <button onClick={this.selectedTrack.bind(this,track)}>+</button>
+            </li>)
+
         this.setState( {
             tracksJSX: tracks
         })
     }
-    addFav (track)
-    {
-        console.log(JSON.stringify(track))
 
+    async selectedTrack(track)
+    {
+        console.log("check");
+        const API_URL = "http://localhost:3007/addTrack"
+        const response = await fetch(API_URL, {
+        method: 'POST',
+        headers:{"Content-Type" : "application/json"},
+        body:JSON.stringify(
+            {'track':track}
+            )});
+        const result = await response.json()
+        console.log(result);
     }
 
     render()
@@ -61,15 +75,13 @@ export default class Discogs extends React.Component{
         return(
             <>
                 <body>
-                    <form action="">
-                        <input type="search" value={this.state.search} placeholder="Search..." onChange={this.updateSearch.bind(this)}/>
-                        <i className="fa fa-search " />
-                        <ul>
-                            <li>
-                                {this.state.tracksJSX}
-                            </li>
-                        </ul>
-                    </form>
+                    <input value={this.state.search} placeholder="Search..." onChange={this.updateSearch.bind(this)}/>
+                    <i className="fa fa-search " />
+                    <ul>
+                        <li>
+                            {this.state.tracksJSX}
+                        </li>
+                    </ul>
                 </body>
             </>
         )
