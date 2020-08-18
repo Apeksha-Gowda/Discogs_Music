@@ -1,0 +1,9 @@
+###
+POST http://localhost:3007/addTrack
+Content-Type: application/json
+
+{
+    "playlist_id": "Pop/Dance",
+    "title": "Apeksha",
+    "uri": "spotify/song/eminem"
+}
