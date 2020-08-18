@@ -1,4 +1,4 @@
-const { Client } = require('pg')
+const { Client } = require('pg');
 
 client = new Client({
     host: 'localhost',
@@ -9,8 +9,4 @@ client = new Client({
  })
 
  client.connect();
-
- client.query('SELECT * from playlist', (err, res) => {
-    console.log(err, res)
-    client.end()
-  })
+ module.exports = client;
