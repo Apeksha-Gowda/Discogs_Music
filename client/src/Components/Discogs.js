@@ -29,7 +29,8 @@ export default class Discogs extends React.Component{
     }
 
     newListUpdate(searchKey){
-        const url = "https://api.discogs.com/database/search?token=zphkcfEAuTormIOevmxnTRvkFGqndPzvQVKARnij&search="+searchKey
+     // const url = `https://api.discogs.com/database/search?key=HnJirdOZRXtwJMrRdDOF&secret=VXtumhgYtfRNxIjmDEMwCObNAQLkSmSh&artist="${searchKey}"&country=canada`
+      const url = "https://api.discogs.com/database/search?token=zphkcfEAuTormIOevmxnTRvkFGqndPzvQVKARnij&search="+searchKey
         console.log(url)
         fetch(url, { method: 'GET' })
             .then(response => response.json())
@@ -44,10 +45,15 @@ export default class Discogs extends React.Component{
                 return track.title.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1
             }
         );
-        let tracks = filteredTracks.map( track => <li><img src={track.cover_image} alt="prop" width="30" height="30"/>{track.title}</li>)
+        let tracks = filteredTracks.map( track => <li><img src={track.cover_image} alt="prop" width="30" height="30"/>{track.title}<button type="submit" onClick={this.addFav.bind(this,track)}>+</button></li>)
         this.setState( {
             tracksJSX: tracks
         })
+    }
+    addFav (track)
+    {
+        console.log(JSON.stringify(track))
+
     }
 
     render()
