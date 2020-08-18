@@ -10,18 +10,22 @@ export default class Discogs extends React.Component{
         super(props)
         this.state = {
             originalData:[],
-           tracksJSX : [],
-           trackImageJSX:[],
-           search : ''
+            tracksJSX : [],
+            trackImageJSX:[],
+            search : ''
         }
     }
 
 
     updateSearch(event){
-        //console.log(event.target.value)
-            this.setState({search:event.target.value})
+        this.setState({search:event.target.value})
+        if(!this.state.search){
             this.newListUpdate(this.state.search.toLowerCase())
-
+        }else{
+            this.setState( {
+                tracksJSX: []
+            })
+        }
     }
 
     newListUpdate(searchKey){
@@ -48,24 +52,20 @@ export default class Discogs extends React.Component{
 
     render()
     {
-
         return(
             <>
-            <body>
-                <form action="">
-                    <input type="search" value={this.state.search} placeholder="Search..." onChange={this.updateSearch.bind(this)}/>
-                    <i className="fa fa-search " />
-                    <ul>
-                        <li>
-                            {this.state.tracksJSX}
+                <body>
+                    <form action="">
+                        <input type="search" value={this.state.search} placeholder="Search..." onChange={this.updateSearch.bind(this)}/>
+                        <i className="fa fa-search " />
+                        <ul>
+                            <li>
+                                {this.state.tracksJSX}
                             </li>
-                            </ul>
-
-                </form>
-            </body>
+                        </ul>
+                    </form>
+                </body>
             </>
-
-
         )
     }
 }
