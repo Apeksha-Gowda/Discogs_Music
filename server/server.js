@@ -12,6 +12,7 @@ app.use(express.urlencoded({extended: false}))
 
 app.post('/addTrack', httpHandler.addTrack)
 app.get('/getTracks', httpHandler.getTrackList)
+app.delete('/deleteTrack',httpHandler.deleteTrackFromList)
 
 
 app.listen(port, function () {

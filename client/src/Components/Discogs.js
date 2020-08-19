@@ -1,5 +1,6 @@
 import React from 'react'
 import '../styles/Discogs.css'
+import '../styles/Playlist.css'
 import {Link} from 'react-router-dom'
 
 
@@ -106,25 +107,22 @@ export default class Discogs extends React.Component{
     render()
     {
         return(
-                <body>
-
-<nav className="topnav">
-                    <Link to={{pathname: `/playlist`, params:{name: this.state.playlistFromDb}}}>
-                        <div className="playlist">Show playlist</div>
-                    </Link>
+                <div>
+                    <nav className="topnav">
+                        <Link to={{pathname: `/playlist`, params:{name: this.state.playlistFromDb}}}>
+                            <div className="playlist">Show playlist</div>
+                        </Link>
                     </nav>
-
                     <main>
-                    <input value={this.state.search} placeholder="Search..." onChange={this.updateSearch.bind(this)}/>
-                    {/* <i className="fa fa-search" /> */}
-                    <i class="fas fa-search"/>
-                    <ul>
-                        <li>
-                            {this.state.tracksJSX}
-                        </li>
-                    </ul>
+                        <input value={this.state.search} placeholder="Search..." onChange={this.updateSearch.bind(this)}/>
+                        <i className="fas fa-search"/>
+                        <ul>
+                            <li>
+                                {this.state.tracksJSX}
+                            </li>
+                        </ul>
                     </main>
-                </body>
+                </div>
         )
     }
 }

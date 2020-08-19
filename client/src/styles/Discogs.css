@@ -78,6 +78,7 @@ li
     background-color: white;
     width: 600px;
     margin-top: 10px;
+    list-style: none;
 }
 
 button {

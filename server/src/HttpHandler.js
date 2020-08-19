@@ -6,6 +6,20 @@ const CONTENT_TYPE_HTML = 'text/html'
 const ERROR_CODE = 400
 const client = require('../db/DbConnection')
 
+async function deleteTrackFromList(request,response)
+{
+    const id = request.body;
+    console.log(id.master_id)
+    const track_id = id.master_id
+    let RecordDelete = await client.query({
+        rowMode:'array',
+        text: "delete from track where master_id="+track_id+""
+    });
+    response.json({
+        status: HTTP_OK,
+        message: "Record Deleted"
+    })
+}
 async function addTrack(request,response){
     checkIfRequestIsEmpty(request)
     const track = request.body;
@@ -53,5 +67,7 @@ function checkIfRequestIsEmpty(request){
  }
 module.exports ={
     addTrack,
-    getTrackList
+    getTrackList,
+deleteTrackFromList
+
 }
