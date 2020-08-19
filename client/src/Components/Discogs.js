@@ -28,9 +28,7 @@ export default class Discogs extends React.Component{
         }
     }
 
-    async newListUpdate(searchKey){
-        //const url = 'https://api.discogs.com/database/search?token=khppSkLHaYTxkWRhSYFBubVVeONIUKkrBgHdossa&artist='+searchKey+'&country=canada'
-      const url = "https://api.discogs.com/database/search?token=zphkcfEAuTormIOevmxnTRvkFGqndPzvQVKARnij&search="+searchKey
+    async newListUpdate(searchKey){const url = "https://api.discogs.com/database/search?token=zphkcfEAuTormIOevmxnTRvkFGqndPzvQVKARnij&search="+searchKey
         console.log(url)
         await fetch(url, { method: 'GET' })
             .then(response => response.json())
@@ -83,6 +81,7 @@ export default class Discogs extends React.Component{
               'master_id':track.id  }
             )});
         const result = await response.json()
+        alert(result.message)
         console.log(result);
     }
 
@@ -92,10 +91,7 @@ export default class Discogs extends React.Component{
         })
         console.log("playlist selected ", this.state.playlist)
         console.log("option select" , event.target.value)
-
     }
-
-
 
     render()
     {
@@ -103,7 +99,7 @@ export default class Discogs extends React.Component{
             <>
                 <body>
                 <div className="topnav">
-                            <a>Show playlist</a>
+                            <a href="#">Show playlist</a>
                         </div>
                     <main>
 

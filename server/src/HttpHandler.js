@@ -7,22 +7,35 @@ const ERROR_CODE = 400
 const client = require('../db/DbConnection')
 
 async function addTrack(request,response){
+    checkIfRequestIsEmpty(request)
     const track = request.body;
     console.log("***********", track)
     const {title, master_id, uri, playlist_id} = track;
     console.log(title, master_id ,uri, playlist_id);
-
-    let newTrack = await client.query(
-        "INSERT INTO track ( title, uri, master_id, playlist_id ) VALUES ($1, $2, $3, $4) RETURNING * ", [title, uri,master_id, playlist_id]
-    );
-    console.log(newTrack)
+    let checkIfRecordExist = await client.query({
+        rwoMode:'array',
+        text: "select * from track where title='"+title+"' and playlist_id="+playlist_id+""
+    })
+   if(checkIfRecordExist.rows.length == 0 || checkIfRecordExist.rows == undefined){
+        let newTrack = await client.query(
+            "INSERT INTO track ( title, uri, master_id, playlist_id ) VALUES ($1, $2, $3, $4) RETURNING * ", [title, uri,master_id, playlist_id]
+        );
+        response.json({
+            status: HTTP_OK,
+            message: "Record added successfully!"
+        })
+   }else{
+        response.json({
+            status: ERROR_CODE,
+            message: "Record already exist!"
+        })
+   }
 }
 
-
 function checkIfRequestIsEmpty(request){
-     if(!JSON.stringify(request.body)){
-         throw new Error("Request is empty")
-     }
+    if(!JSON.stringify(request.body)){
+        throw new Error("Request is empty")
+    }
  }
 module.exports ={
     addTrack
