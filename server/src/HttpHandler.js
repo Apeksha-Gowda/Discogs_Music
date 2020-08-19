@@ -8,14 +8,16 @@ const client = require('../db/DbConnection')
 
 async function addTrack(request,response){
     const track = request.body;
-    const {title, id, uri} = track.track;
-    console.log(title, id, uri);
+    console.log("***********", track)
+    const {title, master_id, uri, playlist_id} = track;
+    console.log(title, master_id ,uri, playlist_id);
 
     let newTrack = await client.query(
-        "INSERT INTO track ( id ,title, uri, master_id ) VALUES ($1, $2, $3, $4) RETURNING * ", [id, title, uri, 123]
+        "INSERT INTO track ( title, uri, master_id, playlist_id ) VALUES ($1, $2, $3, $4) RETURNING * ", [title, uri,master_id, playlist_id]
     );
     console.log(newTrack)
 }
+
 
 function checkIfRequestIsEmpty(request){
      if(!JSON.stringify(request.body)){
