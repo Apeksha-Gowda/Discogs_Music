@@ -1,6 +1,7 @@
 import React from 'react'
 import '../styles/Discogs.css'
-import 'bootstrap/dist/css/bootstrap.css'
+import {Link} from 'react-router-dom'
+
 
 export default class Discogs extends React.Component{
 
@@ -12,10 +13,10 @@ export default class Discogs extends React.Component{
             tracksJSX : [],
             trackImageJSX:[],
             search : '',
-            playlist:''
+            playlist:'',
+            playlistFromDb:[]
         }
     }
-
 
     updateSearch(event){
         this.setState({search:event.target.value})
@@ -67,8 +68,15 @@ export default class Discogs extends React.Component{
         })
     }
 
+
     async selectedTrack(track)
     {
+        if(!(this.state.playlist))
+        {
+            alert("Playlist type is not selected")
+        }
+        else
+        {
         console.log("check");
         const API_URL = "http://localhost:3007/addTrack"
         const response = await fetch(API_URL, {
@@ -83,6 +91,8 @@ export default class Discogs extends React.Component{
         const result = await response.json()
         alert(result.message)
         console.log(result);
+
+        }
     }
 
     selectPlaylistOption(event){
@@ -96,15 +106,18 @@ export default class Discogs extends React.Component{
     render()
     {
         return(
-            <>
                 <body>
-                <div className="topnav">
-                            <a href="#">Show playlist</a>
-                        </div>
-                    <main>
 
+<nav className="topnav">
+                    <Link to={{pathname: `/playlist`, params:{name: this.state.playlistFromDb}}}>
+                        <div className="playlist">Show playlist</div>
+                    </Link>
+                    </nav>
+
+                    <main>
                     <input value={this.state.search} placeholder="Search..." onChange={this.updateSearch.bind(this)}/>
-                    <i className="fa fa-search " />
+                    {/* <i className="fa fa-search" /> */}
+                    <i class="fas fa-search"/>
                     <ul>
                         <li>
                             {this.state.tracksJSX}
@@ -112,7 +125,6 @@ export default class Discogs extends React.Component{
                     </ul>
                     </main>
                 </body>
-            </>
         )
     }
 }

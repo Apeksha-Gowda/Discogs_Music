@@ -13,7 +13,7 @@ async function addTrack(request,response){
     const {title, master_id, uri, playlist_id} = track;
     console.log(title, master_id ,uri, playlist_id);
     let checkIfRecordExist = await client.query({
-        rwoMode:'array',
+        rowMode:'array',
         text: "select * from track where title='"+title+"' and playlist_id="+playlist_id+""
     })
    if(checkIfRecordExist.rows.length == 0 || checkIfRecordExist.rows == undefined){
@@ -32,11 +32,26 @@ async function addTrack(request,response){
    }
 }
 
+async function getTrackList(request, response)
+{
+    console.log(response)
+    console.log(request)
+    let trackList =await client.query({
+        rowMode:'array',
+        text: "select * from track"
+    })
+    response.json({
+        status: HTTP_OK,
+        rows: trackList.rows
+    })
+}
+
 function checkIfRequestIsEmpty(request){
     if(!JSON.stringify(request.body)){
         throw new Error("Request is empty")
     }
  }
 module.exports ={
-    addTrack
+    addTrack,
+    getTrackList
 }

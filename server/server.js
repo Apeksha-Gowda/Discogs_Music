@@ -11,6 +11,8 @@ app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
 app.post('/addTrack', httpHandler.addTrack)
+app.get('/getTracks', httpHandler.getTrackList)
+
 
 app.listen(port, function () {
     console.log('server listening on : http://localhost:%s', port)
