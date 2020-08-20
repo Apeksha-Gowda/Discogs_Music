@@ -17,5 +17,5 @@ DELETE  http://localhost:3007/deleteTrack
 Content-Type: application/json
 
 {
-    "master_id" : 329877
+    "id" : 1
 }

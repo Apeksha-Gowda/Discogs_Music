@@ -8,12 +8,12 @@ const client = require('../db/DbConnection')
 
 async function deleteTrackFromList(request,response)
 {
-    const id = request.body;
-    console.log(id.master_id)
-    const track_id = id.master_id
-    let RecordDelete = await client.query({
+    const track = request.body;
+    console.log(track.id)
+    const track_id = track.id
+    await client.query({
         rowMode:'array',
-        text: "delete from track where master_id="+track_id+""
+        text: "delete from track where id="+track_id+""
     });
     response.json({
         status: HTTP_OK,

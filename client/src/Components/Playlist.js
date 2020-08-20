@@ -45,12 +45,12 @@ class Playlist extends React.Component{
         headers:{"Content-Type" : "application/json"},
         body:JSON.stringify(
             {
-              'master_id':trackId[4]  }
+              'id':trackId[0]  }
             )});
             const result = await response.json()
             alert(result.message)
             const API_URL_fetch = "http://localhost:3007/getTracks"
-           await fetch(API_URL_fetch, {
+            await fetch(API_URL_fetch, {
             method: 'GET'})
             .then(response => response.json())
             .then(responseJSON => { this.processResults(responseJSON)})
