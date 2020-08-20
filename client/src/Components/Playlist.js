@@ -26,7 +26,7 @@ class Playlist extends React.Component{
                 <td >{trackList[2]}</td>
                 <td >{trackList[1]}</td>
                 <td >{trackList[3]}</td>
-                <td ><button className="btn btn-danger" onClick={this.deleteTrack.bind(this,trackList)}>Delete</button></td>
+                <td ><button className="btn btn-danger delete" onClick={this.deleteTrack.bind(this,trackList)}>Delete</button></td>
             </tr>
         )
 

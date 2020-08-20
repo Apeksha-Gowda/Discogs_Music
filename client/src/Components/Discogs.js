@@ -61,7 +61,7 @@ export default class Discogs extends React.Component{
                             <option key="7" value="Rock">Rock</option>
                        </select>
 
-                    <button onClick={this.selectedTrack.bind(this,track)}>+</button>
+                    <button className="add" onClick={this.selectedTrack.bind(this,track)}>+</button>
             </li>)
 
         this.setState( {
