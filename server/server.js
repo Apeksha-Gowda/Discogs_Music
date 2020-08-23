@@ -11,7 +11,8 @@ app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
 app.post('/addTrack', httpHandler.addTrack)
-app.get('/getTracks', httpHandler.getTrackList)
+app.get('/getTracks/:playList', httpHandler.getTrackList)
+app.get('/getPlayList', httpHandler.getPlayList)
 app.delete('/deleteTrack',httpHandler.deleteTrackFromList)
 
 

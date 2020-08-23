@@ -15,8 +15,28 @@ export default class Discogs extends React.Component{
             trackImageJSX:[],
             search : '',
             playlist:'',
-            playlistFromDb:[]
+            playlistOption:[]
         }
+    }
+
+    async componentWillMount(){
+        this.getPlayList();
+    }
+
+    async getPlayList(){
+        const API_URL = "http://localhost:3007/getPlayList"
+        let playList = await fetch(API_URL, {
+            method: 'GET'})
+            .then(response => response.json())
+            .then(responseJSON =>{
+                this.setState({
+                    playlistOption:responseJSON.rows.map((item, i) => {
+                                        return (
+                                            <option key={i} value={item[1]}>{item[1]}</option>
+                                        )
+                                    }, this)
+                })
+            })
     }
 
     updateSearch(event){
@@ -30,7 +50,8 @@ export default class Discogs extends React.Component{
         }
     }
 
-    async newListUpdate(searchKey){const url = "https://api.discogs.com/database/search?token=zphkcfEAuTormIOevmxnTRvkFGqndPzvQVKARnij&search="+searchKey
+    async newListUpdate(searchKey){
+        const url = "https://api.discogs.com/database/search?token=zphkcfEAuTormIOevmxnTRvkFGqndPzvQVKARnij&query="+searchKey
         console.log(url)
         await fetch(url, { method: 'GET' })
             .then(response => response.json())
@@ -52,13 +73,8 @@ export default class Discogs extends React.Component{
 
                        <select className="select" onChange={this.selectPlaylistOption.bind(this)}>
                             <option key="0" value="">Choose</option>
-                            <option key="1" value="Default">Default</option>
-                            <option key="2" value="Acoustic">Acoustic</option>
-                            <option key="3" value="Classic">Classic</option>
-                            <option key="4" value="Country">Country</option>
-                            <option key="5" value="Metal">Metal</option>
-                            <option key="6" value="Pop/Dance">Pop/Dance</option>
-                            <option key="7" value="Rock">Rock</option>
+                            {this.state.playlistOption}
+
                        </select>
 
                     <button className="add" onClick={this.selectedTrack.bind(this,track)}>+</button>
@@ -109,7 +125,7 @@ export default class Discogs extends React.Component{
         return(
                 <div>
                     <nav className="topnav">
-                        <Link to={{pathname: `/playlist`, params:{name: this.state.playlistFromDb}}}>
+                        <Link to={{pathname: `/playlist`}}>
                             <div className="playlist">Show playlist</div>
                         </Link>
                     </nav>

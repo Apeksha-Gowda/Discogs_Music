@@ -34,3 +34,15 @@ table {
     padding: 8px;
     width: 70px;
   }
+
+  .playlistDropDown{
+    float: left;
+    margin-left: 90px;
+    margin-top: 25px;
+  }
+
+  .playlistLabel{
+    float: left;
+    margin-left: 615px;
+    margin-top: 25px;
+  }

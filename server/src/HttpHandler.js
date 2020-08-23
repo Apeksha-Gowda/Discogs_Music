@@ -5,6 +5,7 @@ const CONTENT_TYPE_JSON = 'application/json'
 const CONTENT_TYPE_HTML = 'text/html'
 const ERROR_CODE = 400
 const client = require('../db/DbConnection')
+const { create } = require('domain')
 
 async function deleteTrackFromList(request,response)
 {
@@ -52,11 +53,25 @@ async function getTrackList(request, response)
     console.log(request)
     let trackList =await client.query({
         rowMode:'array',
-        text: "select * from track"
+        text: "select t.id,t.title,t.playlist_id,t.uri,p.title from track t left join "+
+                "playlist p on t.playlist_id = p.id where p.title='"+request.params.playList+"'"
     })
     response.json({
         status: HTTP_OK,
         rows: trackList.rows
+    })
+}
+
+async function getPlayList(request,response){
+    console.log(response)
+    console.log(request)
+    let playlist = await client.query({
+        rowMode:'array',
+        text: "select id,title from playlist"
+    })
+    response.json({
+        status: HTTP_OK,
+        rows: playlist.rows
     })
 }
 
@@ -68,6 +83,7 @@ function checkIfRequestIsEmpty(request){
 module.exports ={
     addTrack,
     getTrackList,
-deleteTrackFromList
+    deleteTrackFromList,
+    getPlayList
 
 }

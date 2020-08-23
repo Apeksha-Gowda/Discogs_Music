@@ -1,16 +1,42 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+let discogs = require('./Discogs')
 
 class Playlist extends React.Component{
     constructor(props){
         super(props)
-        this.state = {playlistFromDb : [],
-            track : []
+        this.state = {
+            playlistFromDb : [],
+            track : [],
+            selectedPlayList:''
             }
     }
 
     async componentWillMount(){
-        const API_URL = "http://localhost:3007/getTracks"
+        this.getPlayList();
+    }
+
+    async getPlayList(){
+        const API_URL = "http://localhost:3007/getPlayList"
+        await fetch(API_URL, {
+            method: 'GET'})
+            .then(response => response.json())
+            .then(responseJSON =>{
+                this.setState({
+                    playlistFromDb:responseJSON.rows.map((item, i) => {
+                                        return (
+                                            <option key={i} value={item[1]}>{item[1]}</option>
+                                        )
+                                    }, this)
+                })
+            })
+    }
+
+    async selectedPlayList(event){
+        this.setState({
+            selectedPlayList:event.target.value
+        })
+        const API_URL = "http://localhost:3007/getTracks/"+event.target.value
         await fetch(API_URL, {
             method: 'GET'})
             .then(response => response.json())
@@ -23,8 +49,8 @@ class Playlist extends React.Component{
         let list = rows.map(
             trackList =>
             <tr>
-                <td >{trackList[2]}</td>
                 <td >{trackList[1]}</td>
+                <td >{trackList[4]}</td>
                 <td >{trackList[3]}</td>
                 <td ><button className="btn btn-danger delete" onClick={this.deleteTrack.bind(this,trackList)}>Delete</button></td>
             </tr>
@@ -37,8 +63,6 @@ class Playlist extends React.Component{
 
     async deleteTrack(trackId)
     {
-        //alert("works")
-        //console.log(trackId)
         const API_URL = "http://localhost:3007/deleteTrack"
         const response = await fetch(API_URL, {
         method: 'DELETE',
@@ -49,11 +73,13 @@ class Playlist extends React.Component{
             )});
             const result = await response.json()
             alert(result.message)
-            const API_URL_fetch = "http://localhost:3007/getTracks"
+
+            const API_URL_fetch = "http://localhost:3007/getTracks/"+this.state.selectedPlayList
             await fetch(API_URL_fetch, {
             method: 'GET'})
             .then(response => response.json())
             .then(responseJSON => { this.processResults(responseJSON)})
+
 
     }
     render(){
@@ -63,18 +89,23 @@ class Playlist extends React.Component{
                         <Link to={{pathname: `/`}}>
                             <div className="playlist">Search</div>
                         </Link>
-                    </nav>
+                </nav>
+                <label className="playlistLabel">Choose Playlist: </label>
+                <select className="playlistDropDown" onChange={this.selectedPlayList.bind(this)}>
+                    <option key="0" value="">Choose</option>
+                    {this.state.playlistFromDb}
+                </select>
                 <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Playlist Id</th>
-                        <th>URI</th>
-                        <th>Action</th>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Playlist</th>
+                            <th>URI</th>
+                            <th>Action</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {this.state.track}
+                        {this.state.track}
                     </tbody>
                 </table>
             </body>
